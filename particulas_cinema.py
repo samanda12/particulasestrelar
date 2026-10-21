@@ -10,7 +10,7 @@ from pathlib import Path
 
 pygame.init()
 
-# CONFIGURACOES
+
 LARGURA = 1000
 ALTURA = 750
 
@@ -25,10 +25,10 @@ pygame.display.set_caption("Projeto Estrelar - Anne")
 
 relogio = pygame.time.Clock()
 
-# PASTA DO PROJETO
+
 pasta = Path(__file__).resolve().parent
 
-# FOTO DA ANNE
+
 imagem = Image.open(
     pasta / "fotoanne.png"
 ).convert("RGBA")
@@ -38,7 +38,7 @@ imagem.thumbnail((540, 620))
 offset_x = (LARGURA - imagem.width) // 2
 offset_y = (ALTURA - imagem.height) // 2
 
-# PARTICULAS
+
 particulas = []
 
 PASSO = 4
@@ -61,7 +61,7 @@ for y in range(0, imagem.height, PASSO):
 
 print("Particulas:", len(particulas))
 
-# ESTRELAS
+
 estrelas = []
 
 for i in range(160):
@@ -72,7 +72,6 @@ for i in range(160):
         "tamanho": random.choice([1, 1, 2])
     })
 
-# BRILHO
 ESCALA = 4
 
 brilho = pygame.Surface(
@@ -80,13 +79,12 @@ brilho = pygame.Surface(
     pygame.SRCALPHA
 )
 
-# FONTES
 fonte = pygame.font.SysFont("consolas", 18)
 fonte_final = pygame.font.SysFont(
     "georgia", 32, bold=True
 )
 
-# FUNCAO DE EXPLOSAO
+
 def explodir():
 
     centro_x = LARGURA / 2
@@ -106,7 +104,7 @@ def explodir():
         p["y"] = p["dy"] + math.sin(angulo) * distancia
 
 
-# CONFIGURAR GRAVACAO
+
 arquivo_video = pasta / "Projeto_Estrelar_Anne.mp4"
 
 gravador = imageio.get_writer(
@@ -123,7 +121,7 @@ try:
 
     for frame_atual in range(TOTAL_FRAMES):
 
-        # EVENTOS
+      
         for evento in pygame.event.get():
 
             if evento.type == pygame.QUIT:
@@ -138,15 +136,13 @@ try:
 
         tempo = frame_atual / FPS
 
-        # EXPLOSAO AUTOMATICA AOS 7 SEGUNDOS
         if frame_atual == 7 * FPS:
             explodir()
 
         tela.fill(FUNDO)
         brilho.fill((0, 0, 0, 0))
-
-        # ESTRELAS
-        for estrela in estrelas:
+        
+    for estrela in estrelas:
 
             intensidade = int(
                 100 + 100 * abs(
@@ -169,7 +165,7 @@ try:
                 estrela["tamanho"]
             )
 
-        # PARTICULAS DA ANNE
+        
         for p in particulas:
 
             flutuar_x = math.sin(
@@ -220,7 +216,7 @@ try:
                 2
             )
 
-        # APLICAR BRILHO
+
         brilho_grande = pygame.transform.smoothscale(
             brilho,
             (LARGURA, ALTURA)
@@ -235,7 +231,7 @@ try:
         
         pygame.display.flip()
 
-        # CAPTURAR QUADRO
+        
         pixels = pygame.surfarray.array3d(tela)
 
         quadro = np.transpose(
@@ -244,7 +240,7 @@ try:
 
         gravador.append_data(quadro)
 
-        # MOSTRAR PROGRESSO
+       
         if frame_atual % FPS == 0:
             print(
                 f"Gravando: {frame_atual // FPS}s"
