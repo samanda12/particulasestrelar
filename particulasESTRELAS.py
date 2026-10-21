@@ -33,7 +33,6 @@ for y in range(0, imagem.height, 3):
 
         r, g, b, a = imagem.getpixel((x, y))
 
-        # Ignora o fundo transparente
         if a > 100:
             particulas.append({
                 "x": random.uniform(0, LARGURA),
@@ -61,12 +60,12 @@ while executando:
                     p["x"] = random.uniform(0, LARGURA)
                     p["y"] = random.uniform(0, ALTURA)
 
-    # Fundo escuro
+   
     tela.fill((3, 3, 12))
 
     for p in particulas:
 
-        # Move os pontos ate a foto
+
         p["x"] += (p["destino_x"] - p["x"]) * 0.04
         p["y"] += (p["destino_y"] - p["y"]) * 0.04
 
